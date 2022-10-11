@@ -19,7 +19,6 @@ logger.setLevel(logging.DEBUG)
 
 
 SCHEME = 'https://'
-EXTENSIONS = {'html': '.html', 'jpg': '.jpg', 'png': '.png'}
 EXTENSIONS2 = ['.jpg', '.png', '.svg', '.css']
 bar = Bar('Processing', max=100500)
 
@@ -109,14 +108,14 @@ def make_request(link):
     r = requests.get(link)
     logger.debug(f'Response from server: {r}')
     if r.status_code != 200:
-        raise Exception(f'That’s an error. Status code: {r.status_code}')
+        raise ConnectionError(f'That’s an error. Status code: {r.status_code}')
     return r
 
 
 # data - это словарик с именами и ссылками
 def download(main_link, main_path):
     if not os.path.isdir(main_path):
-        raise Exception('The specified directory does not exist. '
+        raise FileNotFoundError('The specified directory does not exist. '
                         'Please, specify an existing directory')
     r = make_request(main_link)
     content = r.text
