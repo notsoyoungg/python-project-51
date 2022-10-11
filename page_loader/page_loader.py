@@ -108,7 +108,7 @@ def edit_html(content, link, dir_name, main_path):
 def make_request(link):
     r = requests.get(link)
     logger.debug(f'Response from server: {r}')
-    if r.status_code != 200:
+    if r.status_code != 200 and r.status_code != 111:
         raise Exception(f'That’s an error. Status code: {r.status_code}')
     return r
 
