@@ -108,7 +108,7 @@ def edit_html(content, link, dir_name, main_path):
 def make_request(link):
     r = requests.get(link)
     logger.debug(f'Response from server: {r}')
-    if r.status_code != 200 and r.status_code != 111:
+    if r.status_code != 200:
         raise Exception(f'That’s an error. Status code: {r.status_code}')
     return r
 
@@ -129,7 +129,6 @@ def download(main_link, main_path):
         if parts[1] in EXTENSIONS2:
             with open(file_name, 'wb') as result:
                 r = make_request(img_link)
-                logger.debug(f'Response from server: {r}')
                 result.write(r.content)
                 bar.next()
         else:

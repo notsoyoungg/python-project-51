@@ -8,6 +8,9 @@ def main():
     try:
         print(download(args.page_link, args.output))
         sys.exit(0)
+    except ConnectionError as e:
+        print(e)
+        sys.exit(0)
     except Exception as e:
         print(e)
         sys.exit(1)
