@@ -20,7 +20,7 @@ logger.setLevel(logging.DEBUG)
 
 SCHEME = 'https://'
 EXTENSIONS = {'html': '.html', 'jpg': '.jpg', 'png': '.png'}
-EXTENSIONS2 = ['.jpg', '.png', '.svg']
+EXTENSIONS2 = ['.jpg', '.png', '.svg', '.css']
 bar = Bar('Processing', max=100500)
 
 

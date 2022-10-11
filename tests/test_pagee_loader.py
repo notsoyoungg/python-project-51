@@ -50,7 +50,7 @@ def test2_page_loader():
              open(abspath(build_fixture_path('expected/localhost-blog-about.html')), 'r') as edited, \
              open(abspath(build_fixture_path('expected/localhost-blog-about_files/localhost-photos-me.jpg')), 'rb') as img, \
              open(abspath(build_fixture_path('expected/localhost-blog-about_files/localhost-assets-scripts.js')), 'r') as jsfile, \
-             open(abspath(build_fixture_path('expected/localhost-blog-about_files/localhost-blog-about-assets-styles.css')), 'r') as cssfile:
+             open(abspath(build_fixture_path('expected/localhost-blog-about_files/localhost-blog-about-assets-styles.css')), 'rb') as cssfile:
                 with tempfile.TemporaryDirectory() as tmp:
                     source = source.read()
                     img = img.read()
@@ -59,16 +59,19 @@ def test2_page_loader():
                     m.get('https://localhost/blog/about', text=source)
                     m.get('https://localhost/photos/me.jpg', content=img)
                     m.get('http://localhost/assets/scripts.js', text=jsfile)
-                    m.get('https://localhost/blog/about/assets/styles.css', text=cssfile)
+                    m.get('https://localhost/blog/about/assets/styles.css', content=cssfile)
                     result = download('https://localhost/blog/about', tmp)
                     expected = open(join(tmp, 'localhost-blog-about.html')).read()
                     expected_img = open(join(tmp, DIR_NAME2, IMG3_NAME), 'rb').read()
                     expected_js = open(join(tmp, DIR_NAME2, FILE1_NAME), 'r').read()
-                    expected_css = open(join(tmp, DIR_NAME2, FILE2_NAME), 'r').read()
+                    expected_css = open(join(tmp, DIR_NAME2, FILE2_NAME), 'rb').read()
                     assert result == join(tmp, 'localhost-blog-about.html')
+                    print(result)
                     assert expected == edited.read()
                     assert expected_img == img
                     assert expected_js == jsfile
+                    print(expected_css)
+                    print(cssfile)
                     assert expected_css == cssfile
 
 
