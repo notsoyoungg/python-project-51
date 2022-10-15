@@ -35,7 +35,6 @@ def complete_the_lists(tags, atribute, links, paths, link, dir_name):
                 paths.append(path)
 
 
-
 def edit_html(content, link, dir_name, main_path):
     soup = BeautifulSoup(content, 'html.parser')
     tags1 = soup.find_all(['img', 'script'])
