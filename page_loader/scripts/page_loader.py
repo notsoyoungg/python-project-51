@@ -14,9 +14,6 @@ def main():
     except ConnectionRefusedError as e:
         logger.debug(f'дратути дратути дратути {e}')
         sys.exit(0)
-    except Exception as e:
-        logger.debug(e)
-        sys.exit(1)
 
 
 if __name__ == '__main__':
