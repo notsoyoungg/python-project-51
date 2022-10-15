@@ -6,3 +6,4 @@ __pycache__
 cc-test-reporter
 coverage.xml
 .pytest_cache
+**/.vscode/
