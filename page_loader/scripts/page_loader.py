@@ -12,7 +12,7 @@ def main():
         print(result)
         sys.exit(0)
     except ConnectionRefusedError as e:
-        logger.debug(e)
+        logger.debug(f'дратути дратути дратути {e}')
         sys.exit(0)
     except Exception as e:
         logger.debug(e)
