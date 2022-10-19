@@ -22,14 +22,11 @@ bar = Bar('Processing', max=100500)
 
 
 def make_request(link):
-    s = requests.Session()
-    if s:
-        r = requests.get(link)
-        logger.debug(f'Response from server: {r}')
-        if r.status_code == 200:
-            return r
-        raise ConnectionError(f'That’s an error. Status code: {r.status_code}')
-    raise ConnectionError('session error')
+    r = requests.get(link)
+    logger.debug(f'Response from server: {r}')
+    if r.status_code == requests.codes.ok:
+        return r
+    raise ConnectionError(f'That’s an error. Status code: {r.status_code}')
 
 
 def download(main_link, main_path):
