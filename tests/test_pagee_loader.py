@@ -7,7 +7,7 @@ import requests_mock
 import pytest
 
 
-# чтобы отображались логи, тусты запускать с флагом -s: 'poetry run pytest -s'
+# чтобы отображались логи, тесты запускать с флагом -s: 'poetry run pytest -s'
 def build_fixture_path(file_name):
     return tests.FIXTURES_PATH + file_name
 

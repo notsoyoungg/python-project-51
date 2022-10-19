@@ -8,12 +8,14 @@ import sys
 def main():
     args = parse_args()
     try:
-        result = download(args.page_link, args.output)
-        print(result)
+        print(download(args.page_link, args.output))
         sys.exit(0)
     except ConnectionRefusedError as e:
-        logger.debug(f'дратути дратути дратути {e}')
+        logger.debug(f'RefusedError RefusedError RefusedError {e}')
         sys.exit(0)
+    except Exception as e:
+        logger.debug(e)
+        sys.exit(1)
 
 
 if __name__ == '__main__':
