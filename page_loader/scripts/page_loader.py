@@ -9,10 +9,6 @@ def main():
     args = parse_args()
     try:
         print(download(args.page_link, args.output))
-        sys.exit(0)
-    except ConnectionRefusedError as e:
-        logger.debug(f'RefusedError RefusedError RefusedError {e}')
-        sys.exit(0)
     except Exception as e:
         logger.debug(e)
         sys.exit(1)
