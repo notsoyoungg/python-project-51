@@ -24,10 +24,8 @@ bar = Bar('Processing', max=100500)
 def make_request(link):
     r = requests.get(link)
     logger.debug(f'Response from server: {r}')
-    if r.status_code == requests.codes.ok:
-        logger.debug(r.raise_for_status())
-        return r
-    raise ConnectionError(f'That’s an error. Status code: {r.status_code}')
+    r.raise_for_status()
+    return r
 
 
 def download(main_link, main_path):
