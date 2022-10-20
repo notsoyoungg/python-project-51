@@ -1,6 +1,5 @@
 from page_loader.page_loader import download
 from page_loader.cli import parse_args
-from urllib3 import HTTPConnectionPool
 from page_loader.logger import logger
 import sys
 
