@@ -24,7 +24,6 @@ bar = Bar('Processing', max=100500)
 def make_request(link):
     r = requests.get(link)
     logger.debug(f'Response from server: {r}')
-    r.raise_for_status()
     logger.debug(r.raise_for_status())
     return r
 
