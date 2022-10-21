@@ -7,10 +7,8 @@ from progress.bar import Bar
 from page_loader.names_maker import make_file_name, make_html_name
 
 
-SCHEME = 'http://'
-
-
 def complete_the_lists(tags, atribute, links, paths, link, dir_name):
+    scheme = urlparse(link)[0]
     netloc = urlparse(link)[1]
     for tag in tags:
         if tag.get(atribute):
@@ -26,7 +24,7 @@ def complete_the_lists(tags, atribute, links, paths, link, dir_name):
                     tag[atribute] = path
                     paths.append(path)
             elif tag.get(atribute)[0] == '/':
-                links.append(SCHEME + netloc + tag[atribute])
+                links.append(scheme + '://' + netloc + tag[atribute])
                 url_parts = urlparse(tag[atribute])
                 new_part = url_parts._replace(query='')
                 name = make_file_name(netloc + urlunparse(new_part))
