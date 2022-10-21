@@ -3,7 +3,6 @@ import os.path
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urlunparse
 import validators
-from progress.bar import Bar
 from page_loader.names_maker import make_file_name, make_html_name
 
 
