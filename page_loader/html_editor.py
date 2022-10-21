@@ -5,10 +5,9 @@ from urllib.parse import urlparse, urlunparse
 import validators
 from progress.bar import Bar
 from page_loader.names_maker import make_file_name, make_html_name
-from page_loader.logger import logger
 
 
-SCHEME = 'https://'
+SCHEME = 'http://'
 
 
 def complete_the_lists(tags, atribute, links, paths, link, dir_name):
@@ -31,7 +30,6 @@ def complete_the_lists(tags, atribute, links, paths, link, dir_name):
                 url_parts = urlparse(tag[atribute])
                 new_part = url_parts._replace(query='')
                 name = make_file_name(netloc + urlunparse(new_part))
-                logger.debug(f'wEYHFDAHDJ {name}')
                 path = os.path.join(dir_name, name)
                 tag[atribute] = path
                 paths.append(path)

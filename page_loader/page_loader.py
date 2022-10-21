@@ -11,7 +11,7 @@ from page_loader.html_editor import edit_html
 
 
 logger = logging.getLogger('logger')
-handler = StreamHandler(stream=sys.stdout)
+handler = StreamHandler(stream=sys.stderr)
 handler.setFormatter(Formatter(fmt='[%(asctime)s: %(levelname)s] %(message)s'))
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
@@ -43,11 +43,13 @@ def download(main_link, main_path):
         if parts[1] in EXTENSIONS:
             with open(file_name, 'wb') as result:
                 r = make_request(img_link)
+                logger.debug(img_link)
                 result.write(r.content)
                 bar.next()
         else:
             with open(file_name, 'w') as result:
                 r = make_request(img_link)
+                logger.debug(img_link)
                 result.write(r.text)
                 bar.next()
     bar.finish()
