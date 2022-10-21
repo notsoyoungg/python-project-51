@@ -5,6 +5,7 @@ import tests
 import tempfile
 import requests_mock
 import pytest
+import os
 
 
 # чтобы отображались логи, тесты запускать с флагом -s: 'poetry run pytest -s'
@@ -19,6 +20,10 @@ FILE1_NAME = 'localhost-assets-scripts.js'
 FILE2_NAME = 'localhost-blog-about-assets-styles.css'
 DIR_NAME = 'google-com_files'
 DIR_NAME2 = 'localhost-blog-about_files'
+DIR_NAME3 = 'site-com-blog-about_files'
+IMG4_NAME = 'site-com-photos-me.jpg'
+FILE3_NAME = 'site-com-assets-scripts.js'
+FILE4_NAME = 'site-com-blog-about-assets-styles.css'
 
 
 def test_page_loader():
@@ -61,11 +66,44 @@ def test2_page_loader():
                     m.get('http://localhost/assets/scripts.js', text=jsfile)
                     m.get('https://localhost/blog/about/assets/styles.css', content=cssfile)
                     result = download('https://localhost/blog/about', tmp)
+                    print(os.listdir(tmp + '/localhost-blog-about_files'))
                     expected = open(join(tmp, 'localhost-blog-about.html')).read()
                     expected_img = open(join(tmp, DIR_NAME2, IMG3_NAME), 'rb').read()
                     expected_js = open(join(tmp, DIR_NAME2, FILE1_NAME), 'r').read()
                     expected_css = open(join(tmp, DIR_NAME2, FILE2_NAME), 'rb').read()
                     assert result == join(tmp, 'localhost-blog-about.html')
+                    print(result)
+                    assert expected == edited.read()
+                    assert expected_img == img
+                    assert expected_js == jsfile
+                    print(expected_css)
+                    print(cssfile)
+                    assert expected_css == cssfile
+
+
+def test5_page_loader():
+    with requests_mock.Mocker() as m:
+        with open(abspath(build_fixture_path('site-com-blog-about.html')), 'r') as source, \
+             open(abspath(build_fixture_path('expected/site-com-blog-about.html')), 'r') as edited, \
+             open(abspath(build_fixture_path('expected/site-com-blog-about_files/site-com-photos-me.jpg')), 'rb') as img, \
+             open(abspath(build_fixture_path('expected/site-com-blog-about_files/site-com-assets-scripts.js')), 'r') as jsfile, \
+             open(abspath(build_fixture_path('expected/site-com-blog-about_files/site-com-blog-about-assets-styles.css')), 'rb') as cssfile:
+                with tempfile.TemporaryDirectory() as tmp:
+                    source = source.read()
+                    img = img.read()
+                    jsfile = jsfile.read()
+                    cssfile = cssfile.read()
+                    m.get('https://site.com/blog/about', text=source)
+                    m.get('https://site.com/photos/me.jpg', content=img)
+                    m.get('https://site.com/assets/scripts.js', text=jsfile)
+                    m.get('https://site.com/blog/about/assets/styles.css', content=cssfile)
+                    result = download('https://site.com/blog/about', tmp)
+                    print(os.listdir(tmp + '/site-com-blog-about_files'))
+                    expected = open(join(tmp, 'site-com-blog-about.html')).read()
+                    expected_img = open(join(tmp, DIR_NAME3, IMG4_NAME), 'rb').read()
+                    expected_js = open(join(tmp, DIR_NAME3, FILE3_NAME), 'r').read()
+                    expected_css = open(join(tmp, DIR_NAME3, FILE4_NAME), 'rb').read()
+                    assert result == join(tmp, 'site-com-blog-about.html')
                     print(result)
                     assert expected == edited.read()
                     assert expected_img == img
