@@ -43,8 +43,8 @@ def edit_html(content, link, dir_name, main_path):
     tags2 = soup.find_all('link')
     links = []
     paths = []
-    complete_the_lists(tags1, 'src', links, paths, link, dir_name)
     complete_the_lists(tags2, 'href', links, paths, link, dir_name)
+    complete_the_lists(tags1, 'src', links, paths, link, dir_name)
     html_file = make_html_name(link)
     path_to_html = os.path.join(main_path, html_file)
     with open(path_to_html, 'w') as edited_html:
