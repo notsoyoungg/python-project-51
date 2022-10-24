@@ -15,3 +15,16 @@ jobs:
       - name: Run tests
         run: |
           make tests
+      - name: Create reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+      - name: test
+        run: |
+          make test-cov
+      - name: sending reporter
+        env:
+          GITHUB_TOKEN: ${{ secrets.TEST_REPORTER_ID }}
+        run: |
+          ./cc-test-reporter after-build -r "$GITHUB_TOKEN"
