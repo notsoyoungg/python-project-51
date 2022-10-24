@@ -73,7 +73,7 @@ def test2_page_loader():
                 assert expected == edited.read()
                 assert expected_img == img
                 assert expected_js == jsfile
-                assert expected_css == cssfile        
+                assert expected_css == cssfile
 
 
 def test5_page_loader():
