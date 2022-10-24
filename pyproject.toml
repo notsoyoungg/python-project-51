@@ -16,6 +16,7 @@ requests-mock = "^1.10.0"
 bs4 = "^0.0.1"
 validators = "^0.20.0"
 progress = "^1.6"
+pytest-cov = "^4.0.0"
 
 [tool.poetry.scripts]
 page-loader = 'page_loader.scripts.page_loader:main'

@@ -8,3 +8,4 @@ coverage.xml
 .pytest_cache
 **/.vscode/
 page_loader/__pycache__/page_loader.cpython-38.pyc
+test-ceverage
