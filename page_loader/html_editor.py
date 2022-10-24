@@ -44,5 +44,4 @@ def edit_html(content, link, dir_name, main_path):
     path_to_html = os.path.join(main_path, html_file)
     with open(path_to_html, 'w') as edited_html:
         edited_html.write(soup.prettify())
-        # bar.next()
     return dict(zip(links, paths))

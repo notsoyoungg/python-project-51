@@ -1,24 +1,14 @@
 import requests
 import os
 import os.path
-import logging
-import sys
-from logging import StreamHandler, Formatter
 from progress.bar import Bar
 from page_loader.names_maker import make_html_name
 from page_loader.directory_creator import build_dir
 from page_loader.html_editor import edit_html
-
-
-logger = logging.getLogger('logger')
-handler = StreamHandler(stream=sys.stderr)
-handler.setFormatter(Formatter(fmt='[%(asctime)s: %(levelname)s] %(message)s'))
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+from page_loader.logger import logger
 
 
 EXTENSIONS = ['.jpg', '.png', '.svg', '.css']
-bar = Bar('Processing', max=100500)
 
 
 def make_request(link):
@@ -36,6 +26,7 @@ def download(main_link, main_path):
     content = r.text
     dir_name = build_dir(main_link, main_path)
     data = edit_html(content, main_link, dir_name, main_path)
+    bar = Bar('Processing', max=len(data))
     html_file = make_html_name(main_link)
     for img_link, path in data.items():
         file_name = os.path.join(main_path, path)
