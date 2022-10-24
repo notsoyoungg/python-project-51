@@ -5,17 +5,11 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # we want to test our package on several versions of Python
-        python-version: [3.8, 3.9]
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+      - uses: actions/setup-python@v3
         with:
-          python-version: ${{ matrix.python-version }}
-        # make depends on poetry
+          python-version: 3.8.x
       - name: Install dependencies
         run: |
           pip install poetry
