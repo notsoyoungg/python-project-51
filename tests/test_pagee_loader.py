@@ -49,7 +49,7 @@ def test_page_loader():
                 assert downloaded_css == expected_cssfile
 
 
-def test_page_loader():
+def test_page_loader_again():
     with requests_mock.Mocker() as m:
         with open(abspath(build_fixture_path('site-com-blog-about.html')), 'r') as source, \
              open(abspath(build_fixture_path('expected/site-com-blog-about.html')), 'r') as expected_html_file, \
