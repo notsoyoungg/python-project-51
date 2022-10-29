@@ -1,10 +1,17 @@
 import os
 import os.path
+import sys
 import requests
 import logging
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urljoin
 from page_loader.url import make_file_name, make_dir_name
+
+
+logging.basicConfig(format='[%(asctime)s: %(levelname)s] %(message)s',
+                    level=logging.DEBUG,
+                    force=True,
+                    stream=sys.stderr)
 
 
 TAGS = {'link': 'href',

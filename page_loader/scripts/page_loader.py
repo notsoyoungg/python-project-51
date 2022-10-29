@@ -1,13 +1,7 @@
 from page_loader.page_loader import download
 from page_loader.cli import parse_args
-import sys
 import logging
-
-
-logging.basicConfig(format='[%(asctime)s: %(levelname)s] %(message)s',
-                    level=logging.DEBUG,
-                    force=True,
-                    stream=sys.stderr)
+import sys
 
 
 def main():
