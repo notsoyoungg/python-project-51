@@ -27,6 +27,7 @@ def tmpdir():
     return tempfile.mkdtemp()
 
 
+# тут я так и не догадался как сделать так, чтобы всё мокалось через цикл
 def test_page_loader(tmpdir):
     with requests_mock.Mocker() as m:
         with open(abspath(build_fixture_path('localhost-blog-about.html')), 'r') as source, \

@@ -19,7 +19,7 @@ def make_request(link):
     return r
 
 
-def edit_html(link):
+def modify_html_and_get_data(link):
     dir_name = make_dir_name(link)
     netloc = urlparse(link)[1]
     r = make_request(link)
@@ -30,7 +30,6 @@ def edit_html(link):
         for tag in tags:
             if tag.get(TAGS[key])[0] == '/':
                 another_link = urljoin(link, tag[TAGS[key]])
-                # another_link = scheme + '://' + netloc + tag[TAGS[key]]
                 name = make_file_name(netloc + tag.get(TAGS[key]))
                 another_path = os.path.join(dir_name, name)
                 data[another_link] = another_path

@@ -3,7 +3,7 @@ import os.path
 import logging
 from progress.bar import Bar
 from page_loader.url import make_html_name, make_dir_name
-from page_loader.html_editor import edit_html
+from page_loader.html_editor import modify_html_and_get_data
 from page_loader.html_editor import make_request
 
 
@@ -25,7 +25,7 @@ def download(link, path):
     if not os.path.isdir(path):
         raise FileNotFoundError('The specified directory does not exist. '
                                 'Please, specify an existing directory')
-    html_content, data = edit_html(link)
+    html_content, data = modify_html_and_get_data(link)
     download_resources(data, path, link)
     html_name = make_html_name(link)
     path_to_html = os.path.join(path, html_name)
