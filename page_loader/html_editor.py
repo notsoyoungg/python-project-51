@@ -1,47 +1,46 @@
 import os
 import os.path
+import requests
+import logging
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse, urlunparse
-import validators
-from page_loader.names_maker import make_file_name, make_html_name
+from urllib.parse import urlparse, urljoin
+from page_loader.url import make_file_name, make_dir_name
 
 
-def complete_the_lists(tags, atribute, links, paths, link, dir_name):
-    scheme = urlparse(link)[0]
+TAGS = {'link': 'href',
+        'img': 'src',
+        'script': 'src'}
+
+
+def make_request(link):
+    r = requests.get(link)
+    logging.debug(f'Response from server: {r}')
+    r.raise_for_status()
+    return r
+
+
+def edit_html(link):
+    dir_name = make_dir_name(link)
     netloc = urlparse(link)[1]
-    for tag in tags:
-        if tag.get(atribute):
-            if validators.url(tag.get(atribute)):
-                another_netloc = urlparse(tag.get(atribute))[1]
-                parts = os.path.splitext(tag[atribute])
+    r = make_request(link)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    data = {}
+    for key in TAGS:
+        tags = soup.find_all(key)
+        for tag in tags:
+            if tag.get(TAGS[key])[0] == '/':
+                another_link = urljoin(link, tag[TAGS[key]])
+                # another_link = scheme + '://' + netloc + tag[TAGS[key]]
+                name = make_file_name(netloc + tag.get(TAGS[key]))
+                another_path = os.path.join(dir_name, name)
+                data[another_link] = another_path
+                tag[TAGS[key]] = another_path
+            else:
+                another_netloc = urlparse(tag.get(TAGS[key]))[1]
+                parts = os.path.splitext(tag[TAGS[key]])
                 if netloc == another_netloc and parts[1]:
-                    links.append(tag[atribute])
-                    parsed = urlparse(tag.get(atribute))
-                    parsed_new = parsed._replace(query='')
-                    name = make_file_name(urlunparse(parsed_new))
-                    path = os.path.join(dir_name, name)
-                    tag[atribute] = path
-                    paths.append(path)
-            elif tag.get(atribute)[0] == '/':
-                links.append(scheme + '://' + netloc + tag[atribute])
-                url_parts = urlparse(tag[atribute])
-                new_part = url_parts._replace(query='')
-                name = make_file_name(netloc + urlunparse(new_part))
-                path = os.path.join(dir_name, name)
-                tag[atribute] = path
-                paths.append(path)
-
-
-def edit_html(content, link, dir_name, main_path):
-    soup = BeautifulSoup(content, 'html.parser')
-    tags1 = soup.find_all(['img', 'script'])
-    tags2 = soup.find_all('link')
-    links = []
-    paths = []
-    complete_the_lists(tags2, 'href', links, paths, link, dir_name)
-    complete_the_lists(tags1, 'src', links, paths, link, dir_name)
-    html_file = make_html_name(link)
-    path_to_html = os.path.join(main_path, html_file)
-    with open(path_to_html, 'w') as edited_html:
-        edited_html.write(soup.prettify())
-    return dict(zip(links, paths))
+                    name = make_file_name(tag.get(TAGS[key]))
+                    another_path = os.path.join(dir_name, name)
+                    data[tag[TAGS[key]]] = another_path
+                    tag[TAGS[key]] = another_path
+    return soup.prettify(), data

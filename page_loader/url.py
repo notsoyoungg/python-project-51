@@ -18,3 +18,10 @@ def make_file_name(name):
     if parts[1]:
         return '-'.join(splitted_name) + parts[1]
     return '-'.join(splitted_name) + '.html'
+
+
+def make_dir_name(link):
+    link_parts = link.split('//')
+    splitted_link = re.split('[^0-9a-zA-Z]', link_parts[1])
+    dir_name = '-'.join(splitted_link) + '_files'
+    return dir_name
