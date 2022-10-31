@@ -2,7 +2,7 @@ import os
 import os.path
 import logging
 from progress.bar import Bar
-from page_loader.url import make_html_name, make_dir_name
+from page_loader.url import make_file_name, make_dir_name
 from page_loader.html_handler import modify_html_and_get_data
 from page_loader.html_handler import make_request
 
@@ -15,7 +15,7 @@ def download_resources(data, path, link):
         file_name = os.path.join(path, path_to_file)
         with open(file_name, 'wb') as result:
             r = make_request(img_link)
-            logging.debug(img_link)
+            logging.debug(f'Downloading: {img_link}')
             result.write(r.content)
             bar.next()
     bar.finish()
@@ -27,8 +27,8 @@ def download(link, path):
                                 'Please, specify an existing directory')
     html_content, data = modify_html_and_get_data(link)
     download_resources(data, path, link)
-    html_name = make_html_name(link)
+    html_name = make_file_name(link)
     path_to_html = os.path.join(path, html_name)
-    with open(path_to_html, 'w') as edited_html:
-        edited_html.write(html_content)
+    with open(path_to_html, 'w') as file:
+        file.write(html_content)
     return path_to_html
