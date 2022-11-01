@@ -20,6 +20,7 @@ ASSETS2 = [('http://site.com/blog/about', 'expected/blog-about.html'),
            ('https://site.com/assets/scripts.js', 'expected/script.js'),
            ('http://site.com/blog/about/assets/styles.css', 'expected/styles.css')]
 
+
 @pytest.mark.parametrize("url,file_path,file_name,dir_name,assets", [
                         ('http://localhost/blog/about', 'expected/localhost-blog-about.html', 'localhost-blog-about.html', 'localhost-blog-about_files', ASSETS1),
                         ('http://site.com/blog/about', 'expected/site-com-blog-about.html', 'site-com-blog-about.html', 'site-com-blog-about_files', ASSETS2)])
