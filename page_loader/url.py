@@ -1,4 +1,3 @@
-from distutils import extension
 import re
 import os.path
 from urllib.parse import urlparse
