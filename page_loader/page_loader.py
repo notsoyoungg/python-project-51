@@ -3,8 +3,7 @@ import os.path
 import logging
 from progress.bar import Bar
 from page_loader.url import make_file_name, make_dir_name
-from page_loader.html_handler import modify_html_and_get_data
-from page_loader.html_handler import make_request
+from page_loader.html import modify_html_and_get_data, make_request
 
 
 def download_resources(data, path, link):

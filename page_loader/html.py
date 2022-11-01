@@ -31,22 +31,22 @@ def modify_html_and_get_data(link):
     netloc = urlparse(link)[1]
     r = make_request(link)
     soup = BeautifulSoup(r.text, 'html.parser')
-    data = {}
-    for key in TAGS:
-        tags = soup.find_all(key)
+    media_resources = {}
+    for current_tag, attr in TAGS.items():
+        tags = soup.find_all(current_tag)
         for tag in tags:
-            if tag.get(TAGS[key])[0] == '/':
-                another_link = urljoin(link, tag[TAGS[key]])
-                name = make_file_name(netloc + tag.get(TAGS[key]))
-                another_path = os.path.join(dir_name, name)
-                data[another_link] = another_path
-                tag[TAGS[key]] = another_path
+            if tag.get(attr)[0] == '/':
+                link_to_asset = urljoin(link, tag[attr])
+                name = make_file_name(netloc + tag.get(attr))
+                file_path = os.path.join(dir_name, name)
+                media_resources[link_to_asset] = file_path
+                tag[attr] = file_path
             else:
-                another_netloc = urlparse(tag.get(TAGS[key]))[1]
-                parts = os.path.splitext(tag[TAGS[key]])
+                another_netloc = urlparse(tag.get(attr))[1]
+                parts = os.path.splitext(tag[attr])
                 if netloc == another_netloc and parts[1]:
-                    name = make_file_name(tag.get(TAGS[key]))
-                    another_path = os.path.join(dir_name, name)
-                    data[tag[TAGS[key]]] = another_path
-                    tag[TAGS[key]] = another_path
-    return soup.prettify(), data
+                    name = make_file_name(tag.get(attr))
+                    file_path = os.path.join(dir_name, name)
+                    media_resources[tag[attr]] = file_path
+                    tag[attr] = file_path
+    return soup.prettify(), media_resources
