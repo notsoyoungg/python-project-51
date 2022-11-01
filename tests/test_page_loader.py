@@ -11,11 +11,11 @@ def build_fixture_path(file_name):
     return FIXTURES_PATH + file_name
 
 
-ASSETS1 = [('http://localhost/blog/about', 'expected/blog-about.html'),
+ASSETS1 = [('http://localhost/blog/about', 'localhost-blog-about.html'),
            ('http://localhost/photos/me.jpg', 'expected/photo.jpg'),
            ('http://localhost/assets/scripts.js', 'expected/script.js'),
            ('http://localhost/blog/about/assets/styles.css', 'expected/styles.css')]
-ASSETS2 = [('http://site.com/blog/about', 'expected/blog-about.html'),
+ASSETS2 = [('http://site.com/blog/about', 'site-com-blog-about.html'),
            ('http://site.com/photos/me.jpg', 'expected/photo.jpg'),
            ('https://site.com/assets/scripts.js', 'expected/script.js'),
            ('http://site.com/blog/about/assets/styles.css', 'expected/styles.css')]
@@ -36,20 +36,6 @@ def test_page_loader(url, file_path, file_name, dir_name, assets, tmpdir):
             assert downloaded_html == expected_html_file.read()
             assert len(os.listdir(tmpdir)) == 2
             assert len(os.listdir(join(tmpdir, dir_name))) == 4
-
-
-# def test_page_loader_again(tmpdir):
-#     with requests_mock.Mocker() as m:
-#         with open(abspath(build_fixture_path('expected/site-com-blog-about.html')), 'r') as expected_html_file:
-#             for link, path in ASSETS2:
-#                 with open(build_fixture_path(path), 'rb') as file:
-#                     m.get(link, content=file.read())
-#             result = download('http://site.com/blog/about', tmpdir)
-#             downloaded_html = open(join(tmpdir, 'site-com-blog-about.html')).read()
-#             assert result == join(tmpdir, 'site-com-blog-about.html')
-#             assert downloaded_html == expected_html_file.read()
-#             assert len(os.listdir(tmpdir)) == 2
-#             assert len(os.listdir(join(tmpdir, DIR_NAME2))) == 4
 
 
 def test_exception_1():
