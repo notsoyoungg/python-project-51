@@ -1,7 +1,6 @@
 import os
 import requests_mock
 import pytest
-from os.path import abspath
 from os.path import join
 from urllib.parse import urljoin
 from page_loader.page_loader import download
