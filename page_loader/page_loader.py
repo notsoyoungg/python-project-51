@@ -6,27 +6,27 @@ from page_loader.url import make_file_name, make_dir_name
 from page_loader.html import modify_html_and_get_data, make_request
 
 
-def download_resources(data, path, link):
+def download_resources(data, path, url):
     bar = Bar('Processing', max=len(data))
-    dir_name = make_dir_name(link)
+    dir_name = make_dir_name(url)
     os.mkdir(os.path.join(path, dir_name))
-    for img_link, path_to_file in data.items():
-        file_name = os.path.join(path, path_to_file)
+    for resource_url, resource_path in data.items():
+        file_name = os.path.join(path, resource_path)
         with open(file_name, 'wb') as result:
-            r = make_request(img_link)
-            logging.debug(f'Downloading: {img_link}')
+            r = make_request(resource_url)
+            logging.debug(f'Downloading: {resource_url}')
             result.write(r.content)
             bar.next()
     bar.finish()
 
 
-def download(link, path):
+def download(url, path):
     if not os.path.isdir(path):
         raise FileNotFoundError('The specified directory does not exist. '
                                 'Please, specify an existing directory')
-    html_content, data = modify_html_and_get_data(link)
-    download_resources(data, path, link)
-    html_name = make_file_name(link)
+    html_content, data = modify_html_and_get_data(url)
+    download_resources(data, path, url)
+    html_name = make_file_name(url)
     path_to_html = os.path.join(path, html_name)
     with open(path_to_html, 'w') as file:
         file.write(html_content)

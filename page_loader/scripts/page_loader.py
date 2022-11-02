@@ -4,10 +4,16 @@ import logging
 import sys
 
 
+logging.basicConfig(format='[%(asctime)s: %(levelname)s] %(message)s',
+                    level=logging.DEBUG,
+                    force=True,
+                    stream=sys.stderr)
+
+
 def main():
     args = parse_args()
     try:
-        print(download(args.page_link, args.output))
+        print(download(args.url, args.output))
     except Exception as e:
         logging.debug(e)
         sys.exit(1)
