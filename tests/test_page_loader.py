@@ -25,8 +25,6 @@ def test_page_loader(url, expected_html_path, mocked_html, tmpdir):
         with open(build_fixture_path(expected_html_path), 'r') as expected_html_file:
             for url_part, path in ASSETS:
                 with open(build_fixture_path(path), 'rb') as file:
-                    print(build_fixture_path(path))
-                    print(urljoin(url, url_part))
                     m.get(urljoin(url, url_part), content=file.read())
             result = download(url, tmpdir)
             downloaded_html = open(join(tmpdir, mocked_html)).read()
